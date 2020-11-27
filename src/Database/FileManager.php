@@ -9,7 +9,7 @@ use Doctrine\DBAL\Connection;
  * Elle doit utiliser des objets de la classe Files
  */
 
- class FilesManager
+ class FileManager
  {
      private Connection $connection;
 
@@ -30,31 +30,31 @@ use Doctrine\DBAL\Connection;
       * @param int $id l'identifiant en base de fichier
       * @return Fichier|null le fichier trouvé ou null en l'absence de *résultat
       */
-      public function getById(int $id): ?Files
+      public function getById(int $id): ?File
       {
-        $query = $this->connection->prepare('SELECT * FROM files WHERE id = :id');
+        $query = $this->connection->prepare('SELECT * FROM file WHERE id = :id');
         $query->bindValue('id', $id);
         $result = $query->execute();
 
         //Tableau associatif contenant les données du fichier, ou false si aucun résultat
-        $filesData = $result->fetchAssociative();
+        $fileData = $result->fetchAssociative();
 
-        if ($filesData === false) {
+        if ($fileData === false) {
             return null;
         }
 
-        return $this->createObject($filesData['id'], $filesData['filename'], $filesData['original_filename']);
+        return $this->createObject($fileData['id'], $fileData['filename'], $fileData['original_filename']);
         
       }
 
       /**
        * Enregistrer un nouveau fichier en base de données
        */
-      public function createFile(string $filename, string $originalfilename): files
+      public function createFile(string $filename, string $originalfilename): File
       {
           //Enregistrer en base de données (voir HomeController:homepage() )        
           
-        $this->connection->insert('files', array('filename' => $filename, 'original_filename' => $originalfilename));
+        $this->connection->insert('file', array('filename' => $filename, 'original_filename' => $originalfilename));
 
         //Récupérer l'identifiant généré du fichier enregistré
 
@@ -67,15 +67,15 @@ use Doctrine\DBAL\Connection;
         /**
          * Créer un objet Fichier à partir de ses informations
          */
-        private function createObject(int $id, string $filename, string $originalfilename): files
+        private function createObject(int $id, string $filename, string $originalfilename): File
         {            
-            $files = new Files();
-            $files
+            $file = new File();
+            $file
                 ->setId($id)
                 ->setFilename($filename)
                 ->setOriginalFilename($originalfilename)
             ;
-        return $files;
+        return $file;
         }
     
       

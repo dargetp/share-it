@@ -2,11 +2,8 @@
 
 namespace App\Controller;
 
-use App\Database\Files;
-use App\Database\FilesManager;
-use Doctrine\DBAL\DriverManager;
+use App\Database\FileManager;
 use App\File\UploadService;
-use Doctrine\DBAL\Connection;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UploadedFileInterface;
@@ -17,7 +14,7 @@ class HomeController extends AbstractController
         ResponseInterface $response,
         ServerRequestInterface $request, 
         UploadService $uploadService,        
-        FilesManager $filesManager)
+        FileManager $fileManager)
     {
         
         $listFile = $request->getUploadedFiles();
@@ -31,7 +28,7 @@ class HomeController extends AbstractController
         $newFilename = $uploadService->saveFile($file);       
                    
         //Enregistrer les infos du fichier en base de données 
-        $file = $filesManager->createFile($newFilename, $file->getClientFilename());       
+        $file = $fileManager->createFile($newFilename, $file->getClientFilename());       
                 
         // Redirection vers la page de succès        
         return $this->redirect('success', ['id' => $file->getId()
@@ -44,9 +41,9 @@ class HomeController extends AbstractController
     //vérifier que l'identifiant (argument $id) correspond à un fichier existant
     //si ce n'est pas le cas, rediriger vers une route qui affichera un message d'erreur
 
-   public function success(ResponseInterface $response, int $id, FilesManager $filesManager)
+   public function success(ResponseInterface $response, int $id, FileManager $fileManager)
     {
-        $file = $filesManager->getById($id);
+        $file = $fileManager->getById($id);
 
         if ($file === null) {
             return $this->redirect('file-error');
@@ -62,9 +59,9 @@ class HomeController extends AbstractController
         return $this->template($response, 'file_error.html.twig');
     }
   
-   public function download(ResponseInterface $response, int $id, FilesManager $filesManager)
+   public function download(ResponseInterface $response, int $id, FileManager $fileManager)
    {
-        $file = $filesManager->getById($id);   
+        $file = $fileManager->getById($id);   
           
         if ($file === null) {
             return $this->redirect('file-error');

@@ -7,7 +7,7 @@ namespace App\Database;
  * 1 instant = 1 ligne
  * 
  */
-class Files
+class File
 {
     /*
      *PHP 7.4 ET +
