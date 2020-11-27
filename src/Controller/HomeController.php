@@ -52,7 +52,7 @@ class HomeController extends AbstractController
             return $this->redirect('file-error');
         }
         return $this->template($response, 'success.html.twig', [
-            'files' => $file
+            'file' => $file
         ]);
         
     }
@@ -70,20 +70,20 @@ class HomeController extends AbstractController
             return $this->redirect('file-error');
         }
        
-        $path = __DIR__ . '/../../files/' . $file->getFileName();
+        $filePath = __DIR__ . '/../../files/' . $file->getFilename();
 
-        if (!file_exists (__DIR__ . '/../../files/' . $file->getFileName())) {
+        if (!file_exists ($filePath)) {
              return $this->redirect('file-error');
         }
         
-        $originalFilename = $file->getOriginalFileName();
+        $originalFilename = $file->getOriginalFilename();
 
         header("Content-Disposition: attachment; filename=\"$originalFilename\""); 
         header('Cache-Control: public');
         header('Content-Description: File Transfer');
         header('Content-Type: application/octet-stream');        
         header('Content-Transfer-Encoding: binary');    
-        readfile($path);     
+        readfile($filePath);     
              
    }
 

@@ -72,7 +72,7 @@ use Doctrine\DBAL\Connection;
             $files = new Files();
             $files
                 ->setId($id)
-                ->setFileName($filename)
+                ->setFilename($filename)
                 ->setOriginalFilename($originalfilename)
             ;
         return $files;

@@ -12,13 +12,13 @@
     <p>
     {# On accede aux propriétés / méthodes avec le point
        Twig essaie automatiquement d'appeler le getter : getOriginalFilename()} #}
-        Le fichier <b>{{ files.OriginalFilename}}</b> a été chargé,
+        Le fichier <b>{{ file.OriginalFilename}}</b> a été chargé,
         vous pouvez copier le lien de téléchargememnt ci-dessous:
     </p>
     {# On créé un lien vers la page de téléchargement (route "download)
      L'adresse nécessite un paramètre "id", on passe un tableau associatif à la fonction link()
      Syntaxe des tableaux associatifs dans Twig: {cle: valeur} #}
-    <input type = "text" class="form-control" value="http://localhost:8000{{ link('download', {id: files.id}) }}">
+    <input type = "text" class="form-control" value="http://localhost:8000{{ link('download', {id: file.id}) }}">
 
     {% endblock %}
 

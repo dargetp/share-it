@@ -36,18 +36,18 @@ class Files
         return $this;
     }
 
-    public function getFileName(): ?string
+    public function getFilename(): ?string
     {
         return $this->filename;
     }
 
-    public function setFileName(string $filename): self
+    public function setFilename(string $filename): self
     {
         $this->filename = $filename;
         return $this;
     }
 
-    public function getOriginalFileName(): ?string
+    public function getOriginalFilename(): ?string
     {
         return $this->original_filename;
     }
