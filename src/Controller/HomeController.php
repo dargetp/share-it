@@ -26,21 +26,15 @@ class HomeController extends AbstractController
         if (isset($listFile['file'])) {
          /** @var UploadedFileInterface $file */
         $file = $listFile['file'];
-        //var_dump($file);
-
-        //recuperer le nouveau nom du fichier
-        //$nouveauNom = $uploadService->saveFile($file); 
-        $newFilename = $uploadService->saveFile($file);        
         
-        //Enregistrer les infos du fichier en base de données
-        
-        //  $connection->insert('files', array('filename' => $nouveauNom, 'original_filename' => $file->getClientFilename()));
-        
+        //recuperer le nouveau nom du fichier        
+        $newFilename = $uploadService->saveFile($file);       
+                   
+        //Enregistrer les infos du fichier en base de données 
         $file = $filesManager->createFile($newFilename, $file->getClientFilename());
         var_dump($file); 
                 
-        // Redirection vers la page de succès
-        
+        // Redirection vers la page de succès        
         return $this->redirect('success', ['id' => $file->getId()
         ]);
                         

@@ -44,7 +44,6 @@ use Doctrine\DBAL\Connection;
         }
 
         return $this->createObject($filesData['id'], $filesData['filename'], $filesData['original_filename']);
-
         
       }
 
@@ -78,7 +77,6 @@ use Doctrine\DBAL\Connection;
             ;
         return $files;
         }
-
-          
+    
       
  }
