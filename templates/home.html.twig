@@ -9,14 +9,18 @@ HTML et on remplacer certains blocs #}
 {% endblock %}
 
 {% block body %}
-<h1>Share it!</h1>   
-  {# <a href='{{ link('test') }}'>Test</a> #}
+ <h1>Share It!</h1> 
 
-  <form action="{{ link('homepage') }}" method="post" enctype="multipart/form-data">                
+     <form action="{{ link('homepage') }}" method="post" enctype="multipart/form-data">
         <div class="form-group">
-              {# <label for="file">Fichier</label> #}
-              <input type="file" class="form-group" id="file" name="file">
+            <div class="custom-file">
+                <input type="file" class="custom-file-input" id="customFile" name="file">
+                <label class="custom-file-label" for="customFile">Votre fichier</label>
+            </div>
         </div>
-             <input type="submit" value="Valider" class="btn btn-primary">
-</form> 
+
+        <button type="submit" class="btn btn-success">
+            Envoyer
+        </button>
+    </form>
 {% endblock %}

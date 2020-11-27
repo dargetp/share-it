@@ -19,6 +19,16 @@ $app
     ->setName('homepage')
 ;
 
+$app
+    ->get('/success/{id:\d+}', [HomeController::class, 'success'])
+    ->setName('success')
+;
+
+$app
+    ->get('/file-error', [HomeController::class, 'fileError'])
+    ->setName('file-error')
+;
+
 //On peut indiquer des parametres dans les routes entre accolades: {param}
 //On peut indiquer leur format avec des RegEx: \d+ (constitué d'un ou plusieurs chiffres)
 
@@ -28,8 +38,6 @@ $app
     ->setName('download')
 
 ;
-
-
 
 // Start the application
 $app->run();
