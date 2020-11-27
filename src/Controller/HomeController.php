@@ -31,8 +31,7 @@ class HomeController extends AbstractController
         $newFilename = $uploadService->saveFile($file);       
                    
         //Enregistrer les infos du fichier en base de données 
-        $file = $filesManager->createFile($newFilename, $file->getClientFilename());
-        var_dump($file); 
+        $file = $filesManager->createFile($newFilename, $file->getClientFilename());       
                 
         // Redirection vers la page de succès        
         return $this->redirect('success', ['id' => $file->getId()
