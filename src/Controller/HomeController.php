@@ -11,8 +11,6 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UploadedFileInterface;
 
-
-
 class HomeController extends AbstractController
 {
     public function homepage(
@@ -45,11 +43,8 @@ class HomeController extends AbstractController
         
         return $this->redirect('success', ['id' => $file->getId()
         ]);
-        
-                
-        } 
-        
-
+                        
+        }        
         return $this->template($response, 'home.html.twig');
     }
 
@@ -58,13 +53,13 @@ class HomeController extends AbstractController
 
    public function success(ResponseInterface $response, int $id, FilesManager $filesManager)
     {
-        $files = $filesManager->getById($id);
+        $file = $filesManager->getById($id);
 
-        if ($files === null) {
+        if ($file === null) {
             return $this->redirect('file-error');
         }
         return $this->template($response, 'success.html.twig', [
-            'files' => $files
+            'files' => $file
         ]);
         
     }
@@ -73,14 +68,30 @@ class HomeController extends AbstractController
     {
         return $this->template($response, 'file_error.html.twig');
     }
-
   
-   public function download(ResponseInterface $response, int $id)
+   public function download(ResponseInterface $response, int $id, FilesManager $filesManager)
    {
-        $response->getBody()->write(sprintf('Identifiant:: %d', $id));
-        return $response;
+        $file = $filesManager->getById($id);   
+          
+        if ($file === null) {
+            return $this->redirect('file-error');
+        }
+       
+        $path = __DIR__ . '/../../files/' . $file->getFileName();
+
+        if (!file_exists (__DIR__ . '/../../files/' . $file->getFileName())) {
+             return $this->redirect('file-error');
+        }
+        
+        $originalFilename = $file->getOriginalFileName();
+
+        header("Content-Disposition: attachment; filename=\"$originalFilename\""); 
+        header('Cache-Control: public');
+        header('Content-Description: File Transfer');
+        header('Content-Type: application/octet-stream');        
+        header('Content-Transfer-Encoding: binary');    
+        readfile($path);     
+             
    }
 
-   
-   
-   }
+}
